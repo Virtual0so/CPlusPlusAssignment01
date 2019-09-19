@@ -1,0 +1,172 @@
+// Assignment01.cpp : This file contains the 'main' function.
+//John A. Meyer
+//Last updated 09/19/2019
+
+//#include "pch.h"
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
+//Declaring constant variables for array sizes
+const int numCount = 18;
+const char charCount = 17;
+
+//Declaring functions for sorting, searching and printing to console
+void sortNumericArray(int arrayToSort[], int size);
+int searchIntegerArray(int arrayToSearch[], int lookupItem, int size, int low, int high);
+void printNumericArray(int arr[], int size);
+
+void sortCharacterArray(char arrayToSort[], int size);
+int searchCharacterArray(char arrayToSearch[], char lookupItem, int size);
+void printCharacterArray(char arr[], int size);
+
+int main()
+{
+	//declaring my arrays
+	int numArray[numCount]{};
+	char charArray[charCount]{};
+	//reading from file
+	std::ifstream input("input.txt");
+	//error thrown if file is not found
+	if (input.fail()) {
+		std::cout << "Error occured in finding/opening specified file";
+		std::cout << std::endl;
+		system("pause");
+		return -1;
+	}
+	//passing data into the arrays
+	for (int i = 0; i < 18; i++) {
+		input >> numArray[i];
+	}
+
+	for (int i = 0; i < 17; i++) {
+		input >> charArray[i];
+	}
+	//printing to console the data in the arrays with endl; for formatting
+	std::cout << "The unsorted list of integers:";
+	std::cout << std::endl;
+	printNumericArray(numArray, numCount);
+	std::cout << std::endl;
+	std::cout << "The unsorted list of characters:";
+	std::cout << std::endl;
+	printCharacterArray(charArray, charCount);
+	std::cout << std::endl;
+	//calling sort functions
+	sortNumericArray(numArray, numCount);
+	sortCharacterArray(charArray, charCount);
+	//printing to console the newly sorted data in the arrays
+	std::cout << "The sorted list of integers in descending order:";
+	std::cout << std::endl;
+	printNumericArray(numArray, numCount);
+	std::cout << std::endl;
+	std::cout << "The sorted list of characters in ascending order:";
+	std::cout << std::endl;
+	printCharacterArray(charArray, charCount);
+	std::cout << std::endl;
+	//prompt for character to search in the array, linear search
+	std::cout << "Enter a character to search: ";
+	char charToSearch;
+	std::cin >> charToSearch;
+
+	int charIndex = searchCharacterArray(charArray, charToSearch, charCount);
+	//printing to console the index or an error if the character isn't found
+	if (charIndex >= 0) {
+		std::cout << "Character " << charToSearch << " found at index [" << charIndex << "] in the sorted character array." << std::endl;
+	}
+	else {
+		std::cout << "The character " << charToSearch << " was not found. ";
+		std::cout << std::endl;
+	}
+	//prompt for integer to search in the array, binary search 
+	std::cout << std::endl;
+	std::cout << "Enter an integer to search: ";
+	int numToSearch;
+	std::cin >> numToSearch;
+
+	int numIndex = searchIntegerArray(numArray, numToSearch, numCount, 0, 17);
+	//printing to console the index or an error if the integer isn't found
+	if (numIndex >= 0) {
+		std::cout << "Integer " << numToSearch << " found at index [" << numIndex << "] in the sorted integer array." << std::endl;
+	}
+	else{
+		std::cout << "The Integer " << numToSearch << " was not found.";
+		std::cout << std::endl;
+	}
+	//ending program
+	std::cout << std::endl;
+	system("pause");
+	return 0;
+}
+//sorting the integer array utilizing a bubble sort algorithm
+void sortNumericArray(int arrayToSort[], int size) {
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - 1; j++) {
+
+			if (arrayToSort[j] < arrayToSort[j + 1]) {
+				int temp = arrayToSort[j];
+				arrayToSort[j] = arrayToSort[j + 1];
+				arrayToSort[j + 1] = temp;
+			}
+		}
+	}
+}
+//searching through integer array using a binary search algorithm
+int searchIntegerArray(int arrayToSearch[], int lookupItem, int size, int low, int high) {
+
+	int mid;
+
+	while (low <= high) {
+		mid = low + (high - low)/2;
+
+		if (lookupItem == arrayToSearch[mid]) {
+			return mid;
+		}
+		else if (lookupItem < arrayToSearch[mid]) {
+			low = mid + 1;
+		}
+		else {
+			high = mid - 1;
+		}
+	}
+	return -1;
+}
+//print function for integer array
+void printNumericArray(int arr[], int size) {
+	for (int i = 0; i < size; i++)
+		std::cout << arr[i] << " ";
+	std::cout << std::endl;
+}
+//sorting the character array utilizing a bubble sort algorithm
+void sortCharacterArray(char arrayToSort[], int size) {
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - 1; j++) {
+
+			if (arrayToSort[j] > arrayToSort[j + 1]) {
+				int temp = arrayToSort[j];
+				arrayToSort[j] = arrayToSort[j + 1];
+				arrayToSort[j + 1] = temp;
+			}
+		}
+	}
+}
+//searching through character array using a linear search algorithm
+int searchCharacterArray(char arrayToSearch[], char lookupItem, int size) {
+
+	for (int i = 0; i < size; i++) {
+
+		if (arrayToSearch[i] == lookupItem) {
+			return i;
+		}
+		else {
+			return -1;
+		}
+	}
+}
+//print function for character array
+void printCharacterArray(char arr[], int size) {
+
+	for (int i = 0; i < size; i++)
+		std::cout << arr[i] << " ";
+	std::cout << std::endl;
+}
