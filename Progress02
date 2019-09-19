@@ -1,0 +1,172 @@
+// Assignment01.cpp : This file contains the 'main' function.
+//John A. Meyer
+//Last updated 09/19/2019
+
+//#include "pch.h"
+#include <iostream>
+#include <fstream>
+//Declaring constant array sizes
+const int numCount = 18;
+const char charCount = 17;
+
+//Declaring functions for sorting, searching and printing to console
+void sortNumericArray(int arrayToSort[], int size);
+int searchIntegerArray(int arrayToSearch[], int lookupItem, int size, int low, int high);
+void printNumericArray(int arr[], int size);
+
+void sortCharacterArray(char arrayToSort[], int size);
+int searchCharacterArray(char arrayToSearch[], char lookupItem, int size);
+void printCharacterArray(char arr[], int size);
+
+int main()
+{
+	int numArray[numCount]{};
+	char charArray[charCount]{};
+
+	std::ifstream input("input.txt");
+
+	if (input.fail()) {
+		std::cout << "Problem opening file";
+	}
+
+	for (int i = 0; i < 18; i++) {
+		input >> numArray[i];
+	}
+
+	for (int i = 0; i < 17; i++) {
+		input >> charArray[i];
+	}
+
+	
+	/*std::cout << "Fill in numeric array" << std::endl;
+	for (int i = 0; i < numCount; i++) {
+	    std::cin >> numArray[i];
+	}
+
+	std::cout << "Fill in character array" << std::endl;
+	for (int i = 0; i < charCount; i++) {
+		std::cin >> charArray[i];
+	}*/
+
+
+	std::cout << "The unsorted list of integers:";
+	std::cout << std::endl;
+	printNumericArray(numArray, numCount);
+	std::cout << std::endl;
+	std::cout << "The unsorted list of characters:";
+	std::cout << std::endl;
+	printCharacterArray(charArray, charCount);
+	std::cout << std::endl;
+
+	sortNumericArray(numArray, numCount);
+	sortCharacterArray(charArray, charCount);
+
+	std::cout << "The sorted list of integers:";
+	std::cout << std::endl;
+	printNumericArray(numArray, numCount);
+	std::cout << std::endl;
+	std::cout << "The sorted list of characters:";
+	std::cout << std::endl;
+	printCharacterArray(charArray, charCount);
+	std::cout << std::endl;
+
+	std::cout << "Enter character you want to search: ";
+	char charToSearch;
+	std::cin >> charToSearch;
+
+	int charIndex = searchCharacterArray(charArray, charToSearch, charCount);
+
+	if (charIndex > 0) {
+		std::cout << "The character was at index " << charIndex << std::endl;
+	}
+	else {
+		std::cout << "The character " << charToSearch << " was not found. ";
+	}
+
+	std::cout << std::endl;
+	std::cout << "Enter number you want to search: ";
+	int numToSearch;
+	std::cin >> numToSearch;
+
+	int numIndex = searchIntegerArray(numArray, numToSearch, numCount, 0, 17);
+
+	if (numIndex >= 0) {
+		std::cout << "The number was at index " << numIndex << std::endl;
+	}
+	else{
+		std::cout << "The Integer " << numToSearch << " was not found. ";
+	}
+
+	system("pause");
+	return 0;
+}
+
+void sortNumericArray(int arrayToSort[], int size) {
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - 1; j++) {
+
+			if (arrayToSort[j] < arrayToSort[j + 1]) {
+				int temp = arrayToSort[j];
+				arrayToSort[j] = arrayToSort[j + 1];
+				arrayToSort[j + 1] = temp;
+			}
+		}
+	}
+}
+
+int searchIntegerArray(int arrayToSearch[], int lookupItem, int size, int low, int high) {
+
+	int mid;
+
+	while (low <= high) {
+		mid = low + (high - low)/2;
+
+		if (lookupItem == arrayToSearch[mid]) {
+			return mid;
+		}
+		else if (lookupItem < arrayToSearch[mid]) {
+			low = mid + 1;
+		}
+		else {
+			high = mid - 1;
+		}
+	}
+	return -1;
+}
+
+void printNumericArray(int arr[], int size) {
+	for (int i = 0; i < size; i++)
+		std::cout << arr[i] << " ";
+	std::cout << std::endl;
+}
+
+void sortCharacterArray(char arrayToSort[], int size) {
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - 1; j++) {
+
+			if (arrayToSort[j] > arrayToSort[j + 1]) {
+				int temp = arrayToSort[j];
+				arrayToSort[j] = arrayToSort[j + 1];
+				arrayToSort[j + 1] = temp;
+			}
+		}
+	}
+}
+
+int searchCharacterArray(char arrayToSearch[], char lookupItem, int size) {
+
+	for (int i = 0; i < size; i++) {
+
+		if (arrayToSearch[i] == lookupItem)
+			return i;
+	}
+}
+
+void printCharacterArray(char arr[], int size) {
+
+	for (int i = 0; i < size; i++)
+		std::cout << arr[i] << " ";
+	std::cout << std::endl;
+}
