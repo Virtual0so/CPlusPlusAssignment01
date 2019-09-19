@@ -1,0 +1,116 @@
+// Assignment01.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+//#include "pch.h"
+#include <iostream>
+
+
+const int numCount = 5;
+const char charCount = 5;
+
+void sortNumericArray(int arrayToSort[], int size);
+void printNumericArray(int arr[], int size);
+
+void sortCharacterArray(char arrayToSort[], int size);
+int searchCharacterArray(char arrayToSearch[], char lookupItem, int size);
+void printCharacterArray(char arr[], int size);
+int main()
+{
+	int numArray[numCount]{}, test;
+	char charArray[charCount]{};
+
+	std::cout << "Fill in numeric array" << std::endl;
+	for (int i = 0; i < numCount; i++) {
+	    std::cin >> numArray[i];
+	}
+
+	std::cout << "Fill in character array" << std::endl;
+	for (int i = 0; i < charCount; i++) {
+		std::cin >> charArray[i];
+	}
+
+	printNumericArray(numArray, numCount);
+	printCharacterArray(charArray, charCount);
+
+	sortNumericArray(numArray, numCount);
+	sortCharacterArray(charArray, charCount);
+
+	printNumericArray(numArray, numCount);
+	printCharacterArray(charArray, charCount);
+
+	std::cout << "Enter character you want to search: ";
+	char charToSearch;
+	std::cin >> charToSearch;
+
+	int charIndex = searchCharacterArray(charArray, charToSearch, charCount);
+
+	std::cout << "The character was at index " << charIndex << std::endl;
+
+	/*std::cout << "Enter number you want to search: ";
+	int numToSearch;
+	std::cin >> numToSearch;
+
+	int numIndex = searchCharacterArray(numArray, numToSearch, numCount);
+
+	std::cout << "The number was at index " << numIndex << std::endl;*/
+
+	return 0;
+}
+void sortNumericArray(int arrayToSort[], int size) {
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - 1; j++) {
+
+			if (arrayToSort[j] < arrayToSort[j + 1]) {
+				int temp = arrayToSort[j];
+				arrayToSort[j] = arrayToSort[j + 1];
+				arrayToSort[j + 1] = temp;
+			}
+		}
+	}
+}
+void printNumericArray(int arr[], int size) {
+
+	for (int i = 0; i < size; i++)
+		std::cout << arr[i] << " ";
+	std::cout << std::endl;
+}
+void sortCharacterArray(char arrayToSort[], int size) {
+
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - 1; j++) {
+
+			if (arrayToSort[j] > arrayToSort[j + 1]) {
+				int temp = arrayToSort[j];
+				arrayToSort[j] = arrayToSort[j + 1];
+				arrayToSort[j + 1] = temp;
+			}
+		}
+	}
+}
+int searchCharacterArray(char arrayToSearch[], char lookupItem, int size) {
+
+	for (int i = 0; i < size; i++) {
+
+		if (arrayToSearch[i] == lookupItem)
+			return i;
+	}
+}
+void printCharacterArray(char arr[], int size) {
+
+	for (int i = 0; i < size; i++)
+		std::cout << arr[i] << " ";
+	std::cout << std::endl;
+}
+
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
